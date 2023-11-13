@@ -1,0 +1,17 @@
+<!-- templates/mongoapp/mongo_data_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MongoDB Data List</title>
+</head>
+<body>
+    <h1>MongoDB Data List</h1>
+    <ul>
+        {% for document in mongo_data %}
+            <li>{{ document.tag }}: {{ document.text }}</li>
+            <!-- Add other fields as needed -->
+        {% endfor %}
+    </ul>
+</body>
+</html>
