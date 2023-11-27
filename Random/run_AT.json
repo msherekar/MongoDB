@@ -1,0 +1,40 @@
+[
+  {
+    "_id": "655ad5027abf807cde2c12d9",
+    "type": "constant_nodes",
+    "data": {
+      "Application.Version": "AtlasEngine v5.3.5",
+      "Application.SupportsTransparency": "true",
+      "Application.TransparentPixelValue": "0",
+      "Image.Machine": "GeminiSEM 450-8216010143",
+      "Image.Beam": "SEM",
+      "Image.Aperture": "3.0 kV | 800 pA [An]",
+      "Image.Detector": "BSD4 A",
+      "Image.InvertedSignal": "false",
+      "Scan.LineAvg": "2",
+      "Scan.Uy": "0",
+      "Scan.Vx": "0",
+      "Scan.AppliedScaleCorrection": "1",
+      "StageBias.BiasType": "Tandem Decel",
+      "StageBias.Mode": "High Voltage",
+      "StageBias.Volts": "1000",
+      "Stage.Z": "34134.6582405406",
+      "Stage.Tilt": "0",
+      "Stage.Rot": "17.10001362025",
+      "Stage.M": "0",
+      "RawStage.Z": "34134.6582405406",
+      "RawStage.Tilt": "0",
+      "RawStage.Rot": "17.10001362025",
+      "RawStage.M": "0",
+      "DetectorInfo.item": "On",
+      "ScanInfo.item": "0",
+      "ImageCorrections.Invert": "false",
+      "ImageCorrections.Brightness": "0",
+      "ImageCorrections.Contrast": "1",
+      "ImageCorrections.XBrightSlope": "0",
+      "ImageCorrections.YBrightSlope": "0",
+      "ImageCorrections.RBrightSlope": "0",
+      "StitchingInfo.Stitched": "false"
+    }
+  }
+]

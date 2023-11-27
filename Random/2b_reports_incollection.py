@@ -1,0 +1,80 @@
+import json
+from bson import ObjectId
+from pymongo import MongoClient
+
+class MongoDBEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, ObjectId):
+            return str(obj)
+        return json.JSONEncoder.default(self, obj)
+
+def traverse_document_structure(document, changes, current_path=''):
+    """Traverse the document structure and identify changes in values."""
+    for key, value in document.items():
+        field_path = f"{current_path}.{key}" if current_path else key
+
+        if isinstance(value, dict):
+            # Recursive call for nested dictionaries
+            traverse_document_structure(value, changes, field_path)
+        else:
+            # Check for changes in values
+            if field_path not in changes:
+                changes[field_path] = set()
+
+            # Convert list to tuple for hashability
+            if isinstance(value, list):
+                value = tuple(value)
+
+            changes[field_path].add(value)
+
+# Replace these with your actual values
+mongodb_uri = 'mongodb://localhost:27017/'
+database_name = 'test'
+collection_name = 'fibnum'
+
+# Connect to MongoDB
+client = MongoClient(mongodb_uri)
+db = client[database_name]
+collection = db[collection_name]
+
+# Initialize dictionaries to track changes
+does_not_change = {}
+changes = {}
+
+# Traverse and identify changes in values for each document
+cursor = collection.find()
+for document in cursor:
+    traverse_document_structure(document, changes)
+
+# Separate constant and variable values
+keys_to_remove = []
+for field_path, value_set in changes.items():
+    if len(value_set) == 1:
+        does_not_change[field_path] = value_set.pop()
+        # Add the key to the list for removal
+        keys_to_remove.append(field_path)
+
+# Remove keys from changes that do not change
+for key in keys_to_remove:
+    del changes[key]
+
+# Ensure all sets are converted to lists for serialization
+does_not_change = {key: val for key, val in does_not_change.items()}
+changes = {key: list(val) for key, val in changes.items()}
+
+# Insert documents into MongoDB
+constant_nodes_doc = {"type": "run level data", "data": does_not_change}
+changed_nodes_doc = {"type": "image level data", "data": changes}
+
+# Insert documents into the collection
+constant_nodes_result = collection.insert_one(constant_nodes_doc)
+changed_nodes_result = collection.insert_one(changed_nodes_doc)
+
+# Check if the documents were inserted successfully
+if constant_nodes_result.inserted_id and changed_nodes_result.inserted_id:
+    print("Documents inserted successfully.")
+else:
+    print("Failed to insert documents.")
+
+# Close the MongoDB connection
+client.close()
