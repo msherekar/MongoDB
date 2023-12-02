@@ -1,9 +1,12 @@
+#This script shows two examples of queries
+#More queries can designed using this script as a template
+
 from pymongo import MongoClient
 
 #  QUERY #1
-def RowCol(collection_name, row, column):
+def RowCol(db_name,collection_name, row, column):
     client = MongoClient('mongodb://localhost:27017/')
-    result_cursor = client['AT'][collection_name].aggregate([
+    result_cursor = client[db_name][collection_name].aggregate([
         {
             '$match': {
                 'MosaicInfo.Row': row,
@@ -17,9 +20,9 @@ def RowCol(collection_name, row, column):
     return result_list
 
 # QUERY #2 MOSAIC INFO AND TILE HISTORY
-def mosaic(collection_name, row, column):
+def mosaic(db_name,collection_name, row, column):
     client = MongoClient('mongodb://localhost:27017/')
-    result_cursor = client['AT']['2023_11_23'].aggregate([
+    result_cursor = client[db_name][collection_name].aggregate([
     {
         '$match': {
             'MosaicInfo.Row': row,
@@ -36,15 +39,15 @@ def mosaic(collection_name, row, column):
     return result_list
 
 
-def tileposition(collection_name, row, column):
+def tileposition(db_name, collection_name, row, column):
 
 
     client = MongoClient('mongodb://localhost:27017/')
-    result_cursor = client['AT']['2023_11_23'].aggregate([
+    result_cursor = client[db_name][collection_name].aggregate([
         {
             '$match': {
-                'MosaicInfo.Row': 2,
-                'MosaicInfo.Col': 9
+                'MosaicInfo.Row': row,
+                'MosaicInfo.Col': column
             }
         }, {
             '$project': {
