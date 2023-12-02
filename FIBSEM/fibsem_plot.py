@@ -7,8 +7,8 @@ from pymongo import MongoClient
 
 def get_user_input():
     # Get database name
-    #database_name = simpledialog.askstring("Database Name", "Enter Database Name:")
-    database_name = 'FIBSEM'
+    database_name = simpledialog.askstring("Database Name", "Enter Database Name:")
+    #database_name = 'FIBSEM'
     if not database_name:
         return None, None, None, None  # User canceled the operation
 
@@ -18,14 +18,16 @@ def get_user_input():
         return None, None, None, None  # User canceled the operation
 
     # Get folder to save plots
-    #folder_path = simpledialog.askstring("Folder Path", "Enter Folder Path to Save Plots:")
-    folder_path = '/Users/mukulsherekar/pythonProject/DatabaseProject/Database_Project/Reports_FIBSEM'
+    folder_path = simpledialog.askstring("Folder Path", "Enter Folder Path to Save Plots:")
+    #folder_path = '/Users/mukulsherekar/pythonProject/DatabaseProject/Database_Project/Reports_FIBSEM'
     if not folder_path:
         return None, None, None, None  # User canceled the operation
 
     # Get parameter name
-    #parameter_name = simpledialog.askstring("Parameter Name", "Enter Parameter Name:")
-    parameter_name = 'ZPos'
+    parameter_name = simpledialog.askstring("Parameter Name", "Enter Parameter Name:")
+    #parameter_name = 'ZPos'
+    #There is a bug here. Plots for all the parameter are generated even when any name is entered.
+
     if not parameter_name:
         return None, None, None, None  # User canceled the operation
 
@@ -41,7 +43,7 @@ def plot_parameter(data, folder_path):
             plt.scatter(range(1, len(values) + 1), values, s=5)
             plt.xlabel('Data Point')
             plt.ylabel(f'{key} Values')
-            plt.title(f'Scatter Plot for {key}')
+            plt.title(f'{key}')
             plt.tick_params(axis='x', which='both', bottom=False, top=False, labelbottom=False)
 
             plot_file_path = os.path.join(folder_path, f'{key}_scatter_plot.png')

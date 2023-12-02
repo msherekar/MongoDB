@@ -1,3 +1,5 @@
+#main,py file that gets executed and calls all other modules
+
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import ttk, simpledialog
@@ -65,17 +67,20 @@ class MongoDBGUI:
 
     def run_query_dialog(self, dialog, query_function):
         try:
+            # Get user input for db name
+            db_name = self.db()
+
             # Get user input for collection name
             collection_name = self.collection()
 
             # Ask user for $gte and $lte values using dialog boxes
-            gte_value = simpledialog.askinteger("Input", "Enter $gte value:")
-            lte_value = simpledialog.askinteger("Input", "Enter $lte value:")
+            gte_value = simpledialog.askinteger("Input", "Enter Initial Slice Number:")
+            lte_value = simpledialog.askinteger("Input", "Enter Final Slice Number:")
 
             print(f"Received values: gte={gte_value}, lte={lte_value}")
 
             # Call the specified query function with user-provided values
-            result = query_function(collection_name, gte_value, lte_value)
+            result = query_function(db_name, collection_name, gte_value, lte_value)
 
             print("Query executed, result:")
             for document in result:
@@ -85,6 +90,11 @@ class MongoDBGUI:
 
         except Exception as e:
             print(f"An error occurred in run_query_dialog: {e}")
+
+    def db(self):
+        # Ask user for db names using dialog boxes
+        db_name = simpledialog.askstring("Input", "Enter database name:")
+        return db_name
 
     def collection(self):
         # Ask user for collection names using dialog boxes
@@ -102,13 +112,19 @@ class MongoDBGUI:
             print("EMPIAR ID input canceled.")
             return
 
+        db_name = simpledialog.askstring("Database Name", "Enter Database Name:")
+        if not db_name:
+            print("Database Name input canceled.")
+            return
+        mongodb_uri = 'mongodb://localhost:27017/'
+
         collection_name = simpledialog.askstring("Collection Name", "Enter Collection Name:")
         if not collection_name:
             print("Collection Name input canceled.")
             return
         mongodb_uri = 'mongodb://localhost:27017/'
         # Now you have the EMPIAR ID and Collection Name, proceed with the script
-        fibsem_empiar.download_and_insert_empiar_data(empiar_id, collection_name,mongodb_uri)
+        fibsem_empiar.download_and_insert_empiar_data(empiar_id, db_name, collection_name,mongodb_uri)
 
 
 if __name__ == "__main__":

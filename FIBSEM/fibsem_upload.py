@@ -1,4 +1,7 @@
 # upload_module.py
+# This script runs through a folder full of .xml files and simultaeneously uploads data into mongodb
+# Each .xml files becomes one document
+# User is asked to enter name of database and collection
 import os
 import xml.etree.ElementTree as ET
 from tkinter import filedialog, simpledialog
@@ -6,12 +9,13 @@ from pymongo import MongoClient
 
 def get_user_input():
     # change as per user requirements
-    folder_path = filedialog.askdirectory(title="Select Folder", initialdir='Users/mukulsherekar/pythonProject/DatabaseProject')
+    #folder_path = filedialog.askdirectory(title="Select Folder", initialdir='Users/mukulsherekar/pythonProject/DatabaseProject')
+    folder_path = filedialog.askdirectory(title="Select Folder", initialdir='')
     if not folder_path:
         return None, None, None  # User canceled the operation
 
-    #database_choice = simpledialog.askstring("Select Database", "Choose a database:", initialvalue="")
-    database_choice = 'FIBSEM'
+    database_choice = simpledialog.askstring("Select Database", "Choose a database:", initialvalue="")
+    #database_choice = 'FIBSEM'
 
     if not database_choice:
         return None, None, None  # User canceled the operation
@@ -21,10 +25,6 @@ def get_user_input():
         return None, None, None  # User canceled the operation
 
     return folder_path, database_choice, collection_name
-
-import os
-import xml.etree.ElementTree as ET
-from pymongo import MongoClient
 
 def parse_xml(element):
     """Recursively parse XML element and convert to JSON-like structure."""

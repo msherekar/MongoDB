@@ -21,7 +21,6 @@ def download_and_insert_empiar_data(empiar_id, db_name, collection_name, mongodb
     # MongoDB connection
     client = MongoClient(mongodb_uri)
     db = client[db_name]# can change this as per users requirement
-
     collection = db[collection_name]
 
     try:

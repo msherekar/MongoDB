@@ -40,11 +40,11 @@ def get_user_input():
 
     # Prompt user for MongoDB URI, database name, collection name, and destination folder
     #mongodb_uri = simpledialog.askstring("Input", f"Enter MongoDB URI (default: {default_mongodb_uri}):", initialvalue=default_mongodb_uri)
-    #database_name = simpledialog.askstring("Input", "Enter the database name:")
-    database_name = 'FIBSEM'
+    database_name = simpledialog.askstring("Input", "Enter the database name:")
+    #database_name = 'FIBSEM'
     collection_name = simpledialog.askstring("Input", "Enter the collection name:")
-    #folder_path = filedialog.askdirectory(title="Select Destination Folder")
-    folder_path = '/Users/mukulsherekar/pythonProject/DatabaseProject/Database_Project/Reports_FIBSEM'
+    folder_path = filedialog.askdirectory(title="Select Destination Folder")
+    #folder_path = '/Users/mukulsherekar/pythonProject/DatabaseProject/Database_Project/Reports_FIBSEM'
 
     # Prompt user for filename prefixes
     constant_nodes_prefix = simpledialog.askstring("Input", "Enter the constant nodes filename prefix:")
